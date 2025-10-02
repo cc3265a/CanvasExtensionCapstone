@@ -22,7 +22,7 @@ if (newName == "instructure.com"){
 addEventListener("click", findBox);
 
 function findBox(e){
-  let textDiv = document.getElementsByName("tox-edit-area");
+  let textDiv = document.querySelector("#tinymce");
   // textDiv.innerHTML = "<p style='background-color: red'>";
-  console.log(textDiv.item);
+  console.log(textDiv);
 }
