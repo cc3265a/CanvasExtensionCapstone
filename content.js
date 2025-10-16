@@ -22,7 +22,14 @@ if (newName == "instructure.com"){
 addEventListener("click", findBox);
 
 function findBox(e){
-  let textDiv = document.querySelector("#tinymce");
-  // textDiv.innerHTML = "<p style='background-color: red'>";
-  console.log(textDiv);
+  let iframeObj = document.getElementById("textentry_text_ifr");
+  console.log("iframe is" + iframeObj);
+
+  let iframeObj2 = document.getElementById("textentry_text_ifr").contentWindow;
+  console.log("iframe2 is" + iframeObj2);
+
+  let pDiv = iframeObj2.document.querySelector("p");
+  console.log(pDiv);
+
+  pDiv.innerText = "HELLO WORLD";
 }
