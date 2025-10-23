@@ -32,4 +32,7 @@ function findBox(e){
 
   let tabObj= '&emsp;h';
   pDiv.innerHTML = innerHTMLObj + tabObj;
+
+  let myItem = iframeObj2.document.querySelector("#tinymce");
+  // console.log(myItem.activeEditor.selection);
 }
