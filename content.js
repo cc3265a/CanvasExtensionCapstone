@@ -26,3 +26,16 @@ function findBox(e){
   // textDiv.innerHTML = "<p style='background-color: red'>";
   console.log(textDiv);
 }
+
+
+/* NOTES FROM QUIZ:
+Noteable div classes
+- class="form-control textarea-question-holder"
+- class="tox tox-tinymce tox-tinymce--toolbar-sticky-off"
+
+- class="tox-editor-container" (style editor BUTTONS HERE)
+
+
+- class = "tox-sidebar-wrap"
+  - class="tox-edit-area active""
+*/
