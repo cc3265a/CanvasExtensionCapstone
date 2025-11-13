@@ -1,4 +1,5 @@
-// console.log("this is a web page");
+
+
 
 let hostNameVar = window.location.hostname;
 // console.log(hostNameVar);
@@ -15,24 +16,41 @@ if (newName == "instructure.com"){
 addEventListener("click", findBox);
 
 function findBox(e){
-  let iframeObj = document.getElementById("textentry_text_ifr");
-  // console.log("iframe is" + iframeObj);
+  let iframeObj = document.getElementById("textentry_text_ifr").contentWindow;
 
-  let iframeObj2 = document.getElementById("textentry_text_ifr").contentWindow;
-  // console.log("iframe2 is" + iframeObj2);
+  let bodyDiv = iframeObj.document.querySelector("body");
 
-  let pDiv = iframeObj2.document.querySelector("p");
-  // console.log(pDiv);
+  let innerHTMLObj = bodyDiv.innerHTML;
 
-  let innerHTMLObj = pDiv.innerHTML;
-  console.log(innerHTMLObj); 
+  let tabObj= '&nbsp;';
 
-  // pDiv.innerText = "HELP ME";
-  // pDiv.innerHTML = <pre>  hello</pre>;
+  let pArray = innerHTMLObj.split("<p>");
+  console.log(pArray);
 
-  let tabObj= '&emsp;h';
-  pDiv.innerHTML = innerHTMLObj + tabObj;
+  for (i = 0; i < pArray.length; i++){
+    if (pArray[i] == ""){
+      pArray.splice(i, 1);
+    }
+  }
+  console.log(pArray);
 
-  let myItem = iframeObj2.document.querySelector("#tinymce");
-  // console.log(myItem.activeEditor.selection);
+  let firstPArrObj = pArray[0];
+  console.log("first pArrObj = " + firstPArrObj);
+
+  let newP = `<p>` + tabObj + firstPArrObj;
+  console.log("the newP is = " + newP);
+
+  let newHTML = newP;
+  for (let i = 1; i < pArray.length; i++){
+    newHTML = newHTML + `<p>&nbsp` + pArray[i];
+    console.log("i = " + pArray[i]);
+  }
+  // newHTML = newHTML + newP;
+
+
+  bodyDiv.innerHTML = newHTML;
+  console.log("newHTML = " + newHTML);
+
 }
+
+
