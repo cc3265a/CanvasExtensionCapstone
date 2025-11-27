@@ -1,38 +1,115 @@
-// console.log("this is a web page");
 
-let hostNameVar = window.location.hostname;
-// console.log(hostNameVar);
-let dotLoc = hostNameVar.indexOf(".");
-// console.log(dotLoc);
-let newName = hostNameVar.slice(dotLoc+1);
-// console.log(newName + " is the host name!");
+window.onload = function() {
+    console.log("onload ran");
+    
+};
 
-if (newName == "instructure.com"){
-  // console.log("this is canvas")
+window.onscroll = function() 
+{
+    findToolbars("Quiz")
 }
 
+const WebPageType = findType();
 
-addEventListener("click", findBox);
+if (WebPageType != "none") 
+{
+    findToolbars(WebPageType);
+}
+   
+//findType();
 
-function findBox(e){
-  let iframeObj = document.getElementById("textentry_text_ifr");
-  // console.log("iframe is" + iframeObj);
+function findType() 
+{
+    let pageType = "";
+    const bodyObjects = document.querySelectorAll('body');
+    bodyElement = bodyObjects[0];
+    console.log(bodyElement);
 
-  let iframeObj2 = document.getElementById("textentry_text_ifr").contentWindow;
-  // console.log("iframe2 is" + iframeObj2);
+    const classString = bodyElement.className
+    console.log(classString);
+    console.log(typeof classString);
 
-  let pDiv = iframeObj2.document.querySelector("p");
-  // console.log(pDiv);
+    if (classString.includes("with"))
+    {
+        if (classString.includes("quizzes")) 
+        {
+            console.log("doc type quiz");
+            pageType = "Quiz";
+        }
+        else if (classString.includes("discussions")) 
+        {
+            console.log("doc type discussion");
+            pageType = "Dicussion";
+        }
+        else 
+        {
+            console.log("other canvas page");
+            pageType = "Other"
+        }
+    }
+    else 
+    {
+        console.log("not canvas");
+        pageType = "none"
+    }
 
-  let innerHTMLObj = pDiv.innerHTML;
-  console.log(innerHTMLObj); 
+    return pageType;
+}
 
-  // pDiv.innerText = "HELP ME";
-  // pDiv.innerHTML = <pre>  hello</pre>;
+function findToolbars(pageType) 
+{
+    let toolbars = []
+    console.log("finding tool bars");
+    console.log(pageType);
+    if (pageType == "Quiz") 
+    {
+        let allBars =  document.querySelectorAll(".tox-toolbar__group");     
+        //console.log("all bars: " + allBars.length)
+        for (const bar of allBars) 
+        {
+            if (bar.title == "Formatting") 
+            {
+                toolbars.push(bar);
+            }
+        }
 
-  let tabObj= '&emsp;h';
-  pDiv.innerHTML = innerHTMLObj + tabObj;
+        console.log(toolbars);
+        console.log("length " + toolbars.length)
+    }
+    for (const bar of toolbars)     
+    {
+        console.log(bar);
+        if (checkForButton(bar) == false) 
+        {
+            addButton(bar)
+        }
+    }
+}
 
-  let myItem = iframeObj2.document.querySelector("#tinymce");
-  // console.log(myItem.activeEditor.selection);
+function checkForButton(toolbar) 
+{
+    var hasButton = toolbar.querySelector("#addedButton") != null;
+    console.log(toolbar + " status = " + hasButton)
+    return hasButton
+}
+
+function addButton(toolbar) 
+{
+    let tabButton = document.createElement('button');
+    tabButton.classList.add('tox-tbtn');
+    tabButton.id = "addedButton";
+    tabButton.innerHTML = "test";
+    tabButton.title = "Add Tab Indent";
+    tabButton.ariaLabel = "Add Tab Indent";
+    tabButton.tabIndex = "-1";
+    tabButton.ariaDisabled = false;
+    tabButton.ariaPressed = false;
+    //tabButton.addEventListener("click", printTest(event));
+    toolbar.appendChild(tabButton);
+}
+
+function printTest(event) 
+{
+    event.preventDefault()
+    console.log("test button clicked")
 }
