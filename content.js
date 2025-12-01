@@ -2,7 +2,8 @@ var toolboxCount = 0;
 const WebPageType = findType();
 
 window.onload = function() {
-    console.log("onload ran");
+    //console.log(findType());
+    WebPageType = findType();
     
 };
 
