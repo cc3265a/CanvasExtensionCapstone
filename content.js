@@ -114,7 +114,7 @@ function addButton(toolbar)
     let tabButton = document.createElement('button');
     tabButton.classList.add('tox-tbtn');
     tabButton.id = "addedButton";
-    tabButton.innerHTML = "test";
+    tabButton.innerHTML = "Indent";
     tabButton.title = "Add Tab Indent";
     tabButton.ariaLabel = "Add Tab Indent";
     tabButton.tabIndex = "-1";
