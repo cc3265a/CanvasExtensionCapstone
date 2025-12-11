@@ -17,6 +17,7 @@ window.onscroll = function()
     {
         if (questionCount != toolboxCount) 
         {
+            buttonPos = 0;
             processToolBars(WebPageType)
         }
     }
@@ -25,7 +26,7 @@ window.onscroll = function()
     {
         textBoxes = [];
         console.log(questionCount, " < ", textBoxes.length, " ran")
-        for (let i = 1; i <= questionCount + 1; i++)
+        for (let i = 0; i < questionCount; i++)
         {
             //let frameId = `question_input_${i}_ifr`;
             let frameId = "question_input_"
@@ -33,8 +34,8 @@ window.onscroll = function()
             frameId = frameId.concat("_ifr");
             //console.log(frameId);
             textBoxes.push(document.getElementById(frameId));
-            console.log(textBoxes);
         }
+        console.log(textBoxes);
     }
     
 }
@@ -177,13 +178,14 @@ function add_tab(buttonClicked){
     console.log(buttonClicked)
     let buttonIdParts = buttonClicked.id.split("_")
     let selectedQuestion = Number(buttonIdParts[1])
-    console.log(selectedQuestion)
+    console.log("ID = " + selectedQuestion)
   // console.log(tinymce.activeEditor.selection);
 
   // console.log(inputElement.selectionStart);
 
   //grab the location of the textbox and what is currently in it
     let selectedIframe = textBoxes[selectedQuestion];
+    console.log(selectedIframe);
     //console.log(selectedIframe);
 
   //console.log("found", document.getElementById("textentry_text_ifr"));
