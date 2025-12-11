@@ -1,5 +1,8 @@
 var toolboxCount = 0;
 const WebPageType = findType();
+var textBoxes = [];
+var buttonPos = 0;
+var buttonClicked = 0;
 
 window.onload = function() {
     //console.log(findType());
@@ -9,13 +12,31 @@ window.onload = function() {
 
 window.onscroll = function() 
 {
+    questionCount = countToolbars();
     if (WebPageType == "Quiz") 
     {
-        if (countToolbars() != toolboxCount) 
+        if (questionCount != toolboxCount) 
         {
             processToolBars(WebPageType)
         }
     }
+
+    if (questionCount > textBoxes.length) 
+    {
+        textBoxes = [];
+        console.log(questionCount, " < ", textBoxes.length, " ran")
+        for (let i = 1; i <= questionCount + 1; i++)
+        {
+            //let frameId = `question_input_${i}_ifr`;
+            let frameId = "question_input_"
+            frameId = frameId.concat(i.toString());
+            frameId = frameId.concat("_ifr");
+            //console.log(frameId);
+            textBoxes.push(document.getElementById(frameId));
+            console.log(textBoxes);
+        }
+    }
+    
 }
 
 function findType() 
@@ -113,21 +134,29 @@ function addButton(toolbar)
 {
     let tabButton = document.createElement('button');
     tabButton.classList.add('tox-tbtn');
-    tabButton.id = "addedButton";
-    tabButton.innerHTML = "Indent";
+
+    let newID = "addedButton_";
+    newID = newID.concat(buttonPos.toString())
+    buttonPos += 1;
+    tabButton.id = newID;
+    tabButton.innerHTML = "P";
     tabButton.title = "Add Tab Indent";
     tabButton.ariaLabel = "Add Tab Indent";
     tabButton.tabIndex = "-1";
+
     tabButton.ariaDisabled = false;
     tabButton.ariaPressed = false;
-    tabButton.addEventListener("click", printTest);
+    tabButton.addEventListener("click", tabClicked);
     toolbar.appendChild(tabButton);
 }
 
-function printTest(e) 
+function tabClicked(e) 
 {
     e.preventDefault();
-    console.log("test button clicked");
+    console.log("clicked")
+    //console.log(e.target);
+    buttonClicked = e.target
+    add_tab(buttonClicked)
     return false;
 }
 
@@ -141,17 +170,24 @@ document.body.appendChild(script);
 
 const inputElement = document.getElementById("tinymce");
 
-addEventListener("click", add_tab);
+//addEventListener("click", add_tab);
 
-function add_tab(e){
+function add_tab(buttonClicked){
 
+    console.log(buttonClicked)
+    let buttonIdParts = buttonClicked.id.split("_")
+    let selectedQuestion = Number(buttonIdParts[1])
+    console.log(selectedQuestion)
   // console.log(tinymce.activeEditor.selection);
 
-  console.log("here");
   // console.log(inputElement.selectionStart);
 
   //grab the location of the textbox and what is currently in it
-  let iframeObj = document.getElementById("textentry_text_ifr").contentWindow;
+    let selectedIframe = textBoxes[selectedQuestion];
+    //console.log(selectedIframe);
+
+  //console.log("found", document.getElementById("textentry_text_ifr"));
+  let iframeObj = selectedIframe.contentWindow;
   let bodyDiv = iframeObj.document.querySelector("body");
   let innerHTMLObj = bodyDiv.innerHTML;
 
