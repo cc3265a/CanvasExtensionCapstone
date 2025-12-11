@@ -32,7 +32,7 @@ function add_tab(e){
 
   //remove broken slices
   for (i = 0; i < pArray.length; i++){
-    if (pArray[i] == ""){
+    if (pArray[i] == "" | pArray[i] == "</p>"){
       pArray.splice(i, 1);
     }
   }
@@ -43,20 +43,20 @@ function add_tab(e){
   console.log("first pArrObj = " + firstPArrObj);
 
   let myNum = 1;
-  let newHTML;
+  let newHTML = firstPArrObj;
   let newP;
 
-  if (myNum === 0){
-    // add tab to first paragraph
-    newP = `<p>` + tabObj + firstPArrObj;
-    console.log("myNum == 0");
-  }
-  else{
-    newP = tabObj + firstPArrObj;
-    console.log("my num != 0");
-  }
-  newHTML = newP;
-  console.log("this newHTML is " + newHTML);
+  // if (myNum === 0){
+  //   // add tab to first paragraph
+  //   newP = `<p>` + tabObj + firstPArrObj;
+  //   console.log("myNum == 0");
+  // }
+  // else{
+  //   newP = tabObj + firstPArrObj;
+  //   console.log("my num != 0");
+  // }
+  // newHTML = newP;
+  // console.log("this newHTML is " + newHTML);
 
   for (let i = 1; i < pArray.length; i++){
     if (i === myNum){
