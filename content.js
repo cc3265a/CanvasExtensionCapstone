@@ -136,7 +136,7 @@ function processToolBars(pageType)
 
 function checkForButton(toolbar) 
 {
-    var hasButton = toolbar.querySelector([id+="#addedButton"]) != null;
+    var hasButton = toolbar.querySelector("#addedButton") != null;
     //console.log(toolbar + " status = " + hasButton)
     return hasButton
 }
@@ -162,6 +162,8 @@ function addButton(toolbar)
     toolbar.appendChild(tabButton);
 }
 
+
+//add tab on click code
 function tabClicked(e) 
 {
     e.preventDefault();
@@ -171,7 +173,6 @@ function tabClicked(e)
     add_tab(buttonClicked)
     return false;
 }
-
 
 function add_tab(buttonClicked){
 
