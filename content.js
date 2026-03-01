@@ -189,17 +189,8 @@ function tabClicked(e)
     return false;
 }
 
-
-console.log("here");
-var script = document.createElement('script');
-script.type = 'text/javascript';
-
-script.src = ""; //'https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js';
-document.body.appendChild(script);
-
 const inputElement = document.getElementById("tinymce");
 
-// addEventListener("click", add_tab);
 
 function add_tab(buttonClicked){
 
@@ -207,20 +198,19 @@ function add_tab(buttonClicked){
     let buttonIdParts = buttonClicked.id.split("_")
     let selectedQuestion = Number(buttonIdParts[1])
     console.log("ID = " + selectedQuestion)
-  // console.log(tinymce.activeEditor.selection);
 
-  // console.log(inputElement.selectionStart);
 
   //grab the location of the textbox and what is currently in it
+  //doesnt work for discussion so an error is thrown but there is a workaround below so its ok
   console.log("textboxes: " + textBoxes);
   console.log("selectedQuestion: " + textBoxes[selectedQuestion]);
     let selectedIframe = textBoxes[selectedQuestion];
     console.log(selectedIframe);
     //console.log(selectedIframe);
 
-  //console.log("found", document.getElementById("textentry_text_ifr"));\
   let iframeObj;
   let bodyDiv;
+  //rn this is for quiz vs discussion, myThing means its a discussion board
   if (myThing == null){
     iframeObj = selectedIframe.contentWindow;
     bodyDiv = iframeObj.document.querySelector("body");
@@ -236,56 +226,25 @@ function add_tab(buttonClicked){
   console.log("innerHTML is: " + innerHTMLObj);
 
   //the tab object to be inserted at will
-  let tabObj= '&nbsp;&nbsp;';
+  let tabObj= '&nbsp;&nbsp;&nbsp;&nbsp;';
+  let wideTabObj = '&numsp;&numsp;';
 
-  //slice text into seperate paragraphs
-  let pArray = innerHTMLObj.split("<p>");
-
-  console.log(pArray);
-
-  //remove broken slices
-  for (i = 0; i < pArray.length; i++){
-    if (pArray[i] == "" | pArray[i] == "</p>"){
-      pArray.splice(i, 1);
-    }
-  }
-  console.log(pArray);
-
+  //grab whats in the textbox
   let textString = innerHTMLObj.toString();
-//   console.log("textString = " + textString);
+
+  //turn "TAB" into a regular expression (not really needed?)
   let tabRegEx = new RegExp("TAB");
   console.log(tabRegEx);
-  let Tabbed = textString.replace(tabRegEx, tabObj);
-  console.log(Tabbed);
 
-  while (Tabbed != Tabbed.replace(tabRegEx, tabObj)){
-    Tabbed = Tabbed.replace(tabRegEx, tabObj);
+  //replace any instances of "TAB" with tabObj, loop through until all TABs are replaced
+  let Tabbed = textString.replace(tabRegEx, wideTabObj);
+  console.log(Tabbed);
+  while (Tabbed != Tabbed.replace(tabRegEx, wideTabObj)){
+    Tabbed = Tabbed.replace(tabRegEx, wideTabObj);
   }
 
+  //set newly tabbed string as text
   bodyDiv.innerHTML = Tabbed;
-
-
-
-//   // get first paragraph
-//   let firstPArrObj = pArray[0];
-//   console.log("first pArrObj = " + firstPArrObj);
-
-//   let myNum = 1;
-//   let newHTML = firstPArrObj;
-//   let newP;
-
-//   for (let i = 1; i < pArray.length; i++){
-//     if (i === myNum){
-//       newHTML = newHTML + `<p>` + tabObj + pArray[i];
-//     }
-//     else{
-//       newHTML = newHTML + pArray[i];
-//     }
-//     console.log("i = " + pArray[i]);
-//   }
-  
-//   bodyDiv.innerHTML = newHTML;
-//   console.log("newHTML = " + newHTML);
 
 }
 
