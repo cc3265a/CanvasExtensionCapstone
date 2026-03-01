@@ -1,28 +1,33 @@
 var toolboxCount = 0;
-const WebPageType = findType();
+var WebPageType = findType();
 var textBoxes = [];
 var buttonPos = 0;
 var buttonClicked = 0;
-
+var foundtoolbars = 0;
 window.onload = function() {
-    //console.log(findType());
+    console.log(findType());
     WebPageType = findType();
     
 };
 
-window.onscroll = function() 
+window.onmouseup = function() 
 {
+    console.log("mouseup");
     questionCount = countToolbars();
-    if (WebPageType == "Quiz") 
+    findType();
+    if (WebPageType == "Discussion" || WebPageType == "Quiz") 
     {
+        processToolBars(WebPageType);
+        console.log("quiz or discussion webpagetype");
         if (questionCount != toolboxCount) 
         {
             buttonPos = 0;
-            processToolBars(WebPageType)
+            // processToolBars(WebPageType);
         }
     }
 
-    if (questionCount > textBoxes.length) 
+    if (WebPageType == "Quiz"){
+        if (questionCount > textBoxes.length) 
     {
         textBoxes = [];
         console.log(questionCount, " < ", textBoxes.length, " ran")
@@ -37,6 +42,22 @@ window.onscroll = function()
         }
         console.log(textBoxes);
     }
+    }
+    
+    if (WebPageType = "Discussion") 
+    {
+        console.log("HEREAGAIN");
+        textBoxes = [];
+
+        myThing = document.getElementById("message-body-root_ifr");
+        console.log("mything: ");
+        console.log(myThing);
+
+        let myIFrame = myThing.contentWindow;
+        console.log(myIFrame);
+        textBoxes.push(myIFrame.document.getElementById("tinymce"));
+        console.log(textBoxes);
+    }
     
 }
 
@@ -45,10 +66,11 @@ function findType()
     let pageType = "";
     const bodyObjects = document.querySelectorAll('body');
     bodyElement = bodyObjects[0];
-    //console.log(bodyElement);
+    console.log(bodyObjects);
+    console.log(bodyElement);
 
     const classString = bodyElement.className
-    //console.log(classString);
+    console.log(classString);
     //console.log(typeof classString);
 
     if (classString.includes("with"))
@@ -62,6 +84,7 @@ function findType()
         {
             console.log("doc type discussion");
             pageType = "Dicussion";
+            WebPageType = "Discussion";
         }
         else 
         {
@@ -87,6 +110,7 @@ function countToolbars()
     {
         if (bar.title == "Formatting") 
         {
+            console.log("format");
             toolbars.push(bar);
         }
     }
@@ -97,32 +121,36 @@ function processToolBars(pageType)
 {
     let toolbars = [];
     console.log("finding tool bars");
-    //console.log(pageType);
-    if (pageType == "Quiz") 
-    {
-        let allBars =  document.querySelectorAll(".tox-toolbar__group");     
-        //console.log("all bars: " + allBars.length)
-        for (const bar of allBars) 
+    console.log(pageType);
+    if (foundtoolbars < 1){
+        if (pageType == "Quiz" || pageType == "Discussion") 
         {
-            if (bar.title == "Formatting") 
+            let allBars =  document.querySelectorAll(".tox-toolbar__group");     
+            console.log("process");
+            //console.log("all bars: " + allBars.length)
+            for (const bar of allBars) 
             {
-                toolbars.push(bar);
+                if (bar.title == "Formatting") 
+                {
+                    toolbars.push(bar);
+                    foundtoolbars++;
+                }
+            }
+
+            //console.log(toolbars);
+            //console.log("length " + toolbars.length)
+        }
+        for (const bar of toolbars)     
+        {
+            console.log(bar);
+            if (checkForButton(bar) == false) 
+            {
+                addButton(bar)
             }
         }
-
-        //console.log(toolbars);
-        //console.log("length " + toolbars.length)
+        toolboxCount = toolbars.length
     }
-    for (const bar of toolbars)     
-    {
-        console.log(bar);
-        if (checkForButton(bar) == false) 
-        {
-            addButton(bar)
-        }
     }
-    toolboxCount = toolbars.length
-}
 
 function checkForButton(toolbar) 
 {
@@ -171,7 +199,7 @@ document.body.appendChild(script);
 
 const inputElement = document.getElementById("tinymce");
 
-//addEventListener("click", add_tab);
+// addEventListener("click", add_tab);
 
 function add_tab(buttonClicked){
 
@@ -184,20 +212,35 @@ function add_tab(buttonClicked){
   // console.log(inputElement.selectionStart);
 
   //grab the location of the textbox and what is currently in it
+  console.log("textboxes: " + textBoxes);
+  console.log("selectedQuestion: " + textBoxes[selectedQuestion]);
     let selectedIframe = textBoxes[selectedQuestion];
     console.log(selectedIframe);
     //console.log(selectedIframe);
 
-  //console.log("found", document.getElementById("textentry_text_ifr"));
-  let iframeObj = selectedIframe.contentWindow;
-  let bodyDiv = iframeObj.document.querySelector("body");
+  //console.log("found", document.getElementById("textentry_text_ifr"));\
+  let iframeObj;
+  let bodyDiv;
+  if (myThing == null){
+    iframeObj = selectedIframe.contentWindow;
+    bodyDiv = iframeObj.document.querySelector("body");
+  }
+  if (myThing != null){
+    iframeObj = myThing;
+    console.log("textboxes = " + textBoxes);
+    console.log("textbox[0] = " + textBoxes[0]);
+    bodyDiv = textBoxes[0];
+    console.log(bodyDiv);
+  }
   let innerHTMLObj = bodyDiv.innerHTML;
+  console.log("innerHTML is: " + innerHTMLObj);
 
   //the tab object to be inserted at will
-  let tabObj= '&nbsp;';
+  let tabObj= '&nbsp;&nbsp;';
 
   //slice text into seperate paragraphs
   let pArray = innerHTMLObj.split("<p>");
+
   console.log(pArray);
 
   //remove broken slices
@@ -208,39 +251,41 @@ function add_tab(buttonClicked){
   }
   console.log(pArray);
 
-  // get first paragraph
-  let firstPArrObj = pArray[0];
-  console.log("first pArrObj = " + firstPArrObj);
+  let textString = innerHTMLObj.toString();
+//   console.log("textString = " + textString);
+  let tabRegEx = new RegExp("TAB");
+  console.log(tabRegEx);
+  let Tabbed = textString.replace(tabRegEx, tabObj);
+  console.log(Tabbed);
 
-  let myNum = 1;
-  let newHTML = firstPArrObj;
-  let newP;
-
-  // if (myNum === 0){
-  //   // add tab to first paragraph
-  //   newP = `<p>` + tabObj + firstPArrObj;
-  //   console.log("myNum == 0");
-  // }
-  // else{
-  //   newP = tabObj + firstPArrObj;
-  //   console.log("my num != 0");
-  // }
-  // newHTML = newP;
-  // console.log("this newHTML is " + newHTML);
-
-  for (let i = 1; i < pArray.length; i++){
-    if (i === myNum){
-      newHTML = newHTML + `<p>&nbsp` + pArray[i];
-    }
-    else{
-      newHTML = newHTML + pArray[i];
-    }
-    console.log("i = " + pArray[i]);
+  while (Tabbed != Tabbed.replace(tabRegEx, tabObj)){
+    Tabbed = Tabbed.replace(tabRegEx, tabObj);
   }
+
+  bodyDiv.innerHTML = Tabbed;
+
+
+
+//   // get first paragraph
+//   let firstPArrObj = pArray[0];
+//   console.log("first pArrObj = " + firstPArrObj);
+
+//   let myNum = 1;
+//   let newHTML = firstPArrObj;
+//   let newP;
+
+//   for (let i = 1; i < pArray.length; i++){
+//     if (i === myNum){
+//       newHTML = newHTML + `<p>` + tabObj + pArray[i];
+//     }
+//     else{
+//       newHTML = newHTML + pArray[i];
+//     }
+//     console.log("i = " + pArray[i]);
+//   }
   
-  bodyDiv.innerHTML = newHTML;
-  console.log("newHTML = " + newHTML);
+//   bodyDiv.innerHTML = newHTML;
+//   console.log("newHTML = " + newHTML);
 
 }
-
 
