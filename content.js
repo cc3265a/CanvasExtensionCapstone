@@ -44,7 +44,7 @@ window.onmouseup = function()
     }
     }
     
-    if (WebPageType = "Discussion") 
+    if (WebPageType == "Discussion") 
     {
         console.log("HEREAGAIN");
         textBoxes = [];
