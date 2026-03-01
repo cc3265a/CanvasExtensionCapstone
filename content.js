@@ -1,8 +1,9 @@
 var toolboxCount = 0;
-const WebPageType = findType();
+var WebPageType = findType();
 var textBoxes = [];
 var buttonPos = 0;
 var buttonClicked = 0;
+var foundtoolbars = 0;
 
 var script = document.createElement('script');
 script.type = 'text/javascript';
@@ -14,19 +15,71 @@ const inputElement = document.getElementById("tinymce");
 
 //on load of website code
 window.onload = function() {
-    //console.log(findType());
+    console.log(findType());
     WebPageType = findType();
 };
+
+window.onmouseup = function() 
+{
+    console.log("mouseup");
+    questionCount = countToolbars();
+    findType();
+    if (WebPageType == "Discussion" || WebPageType == "Quiz") 
+    {
+        processToolBars(WebPageType);
+        console.log("quiz or discussion webpagetype");
+        if (questionCount != toolboxCount) 
+        {
+            buttonPos = 0;
+            // processToolBars(WebPageType);
+        }
+    }
+
+    if (WebPageType == "Quiz"){
+        if (questionCount > textBoxes.length) 
+    {
+        textBoxes = [];
+        console.log(questionCount, " < ", textBoxes.length, " ran")
+        for (let i = 0; i < questionCount; i++)
+        {
+            //let frameId = `question_input_${i}_ifr`;
+            let frameId = "question_input_"
+            frameId = frameId.concat(i.toString());
+            frameId = frameId.concat("_ifr");
+            //console.log(frameId);
+            textBoxes.push(document.getElementById(frameId));
+        }
+        console.log(textBoxes);
+    }
+    }
+    
+    if (WebPageType == "Discussion") 
+    {
+        console.log("HEREAGAIN");
+        textBoxes = [];
+
+        myThing = document.getElementById("message-body-root_ifr");
+        console.log("mything: ");
+        console.log(myThing);
+
+        let myIFrame = myThing.contentWindow;
+        console.log(myIFrame);
+        textBoxes.push(myIFrame.document.getElementById("tinymce"));
+        console.log(textBoxes);
+    }
+    
+}
 
 function findType() 
 {
     let pageType = "";
     const bodyObjects = document.querySelectorAll('body');
     bodyElement = bodyObjects[0];
-    //console.log(bodyElement);
+    console.log(bodyObjects);
+    console.log(bodyElement);
 
     const classString = bodyElement.className
-    //console.log(classString);
+    console.log(classString);
     //console.log(typeof classString);
 
     if (classString.includes("with"))
@@ -40,6 +93,7 @@ function findType()
         {
             console.log("doc type discussion");
             pageType = "Dicussion";
+            WebPageType = "Discussion";
         }
         else 
         {
@@ -97,6 +151,7 @@ function countToolbars()
     {
         if (bar.title == "Formatting") 
         {
+            console.log("format");
             toolbars.push(bar);
         }
     }
@@ -107,32 +162,36 @@ function processToolBars(pageType)
 {
     let toolbars = [];
     console.log("finding tool bars");
-    //console.log(pageType);
-    if (pageType == "Quiz") 
-    {
-        let allBars =  document.querySelectorAll(".tox-toolbar__group");     
-        //console.log("all bars: " + allBars.length)
-        for (const bar of allBars) 
+    console.log(pageType);
+    if (foundtoolbars < 1){
+        if (pageType == "Quiz" || pageType == "Discussion") 
         {
-            if (bar.title == "Formatting") 
+            let allBars =  document.querySelectorAll(".tox-toolbar__group");     
+            console.log("process");
+            //console.log("all bars: " + allBars.length)
+            for (const bar of allBars) 
             {
-                toolbars.push(bar);
+                if (bar.title == "Formatting") 
+                {
+                    toolbars.push(bar);
+                    foundtoolbars++;
+                }
+            }
+
+            //console.log(toolbars);
+            //console.log("length " + toolbars.length)
+        }
+        for (const bar of toolbars)     
+        {
+            console.log(bar);
+            if (checkForButton(bar) == false) 
+            {
+                addButton(bar)
             }
         }
-
-        //console.log(toolbars);
-        //console.log("length " + toolbars.length)
+        toolboxCount = toolbars.length
     }
-    for (const bar of toolbars)     
-    {
-        console.log(bar);
-        if (checkForButton(bar) == false) 
-        {
-            addButton(bar)
-        }
     }
-    toolboxCount = toolbars.length
-}
 
 function checkForButton(toolbar) 
 {
@@ -174,74 +233,62 @@ function tabClicked(e)
     return false;
 }
 
+const inputElement = document.getElementById("tinymce");
+
+
 function add_tab(buttonClicked){
 
     console.log(buttonClicked)
     let buttonIdParts = buttonClicked.id.split("_")
     let selectedQuestion = Number(buttonIdParts[1])
     console.log("ID = " + selectedQuestion)
-  // console.log(tinymce.activeEditor.selection);
 
-  // console.log(inputElement.selectionStart);
 
   //grab the location of the textbox and what is currently in it
+  //doesnt work for discussion so an error is thrown but there is a workaround below so its ok
+  console.log("textboxes: " + textBoxes);
+  console.log("selectedQuestion: " + textBoxes[selectedQuestion]);
     let selectedIframe = textBoxes[selectedQuestion];
     console.log(selectedIframe);
     //console.log(selectedIframe);
 
-  //console.log("found", document.getElementById("textentry_text_ifr"));
-  let iframeObj = selectedIframe.contentWindow;
-  let bodyDiv = iframeObj.document.querySelector("body");
+  let iframeObj;
+  let bodyDiv;
+  //rn this is for quiz vs discussion, myThing means its a discussion board
+  if (myThing == null){
+    iframeObj = selectedIframe.contentWindow;
+    bodyDiv = iframeObj.document.querySelector("body");
+  }
+  if (myThing != null){
+    iframeObj = myThing;
+    console.log("textboxes = " + textBoxes);
+    console.log("textbox[0] = " + textBoxes[0]);
+    bodyDiv = textBoxes[0];
+    console.log(bodyDiv);
+  }
   let innerHTMLObj = bodyDiv.innerHTML;
+  console.log("innerHTML is: " + innerHTMLObj);
 
   //the tab object to be inserted at will
-  let tabObj= '&nbsp;';
+  let tabObj= '&nbsp;&nbsp;&nbsp;&nbsp;';
+  let wideTabObj = '&numsp;&numsp;';
 
-  //slice text into seperate paragraphs
-  let pArray = innerHTMLObj.split("<p>");
-  console.log(pArray);
+  //grab whats in the textbox
+  let textString = innerHTMLObj.toString();
 
-  //remove broken slices
-  for (i = 0; i < pArray.length; i++){
-    if (pArray[i] == "" | pArray[i] == "</p>"){
-      pArray.splice(i, 1);
-    }
+  //turn "TAB" into a regular expression (not really needed?)
+  let tabRegEx = new RegExp("TAB");
+  console.log(tabRegEx);
+
+  //replace any instances of "TAB" with tabObj, loop through until all TABs are replaced
+  let Tabbed = textString.replace(tabRegEx, wideTabObj);
+  console.log(Tabbed);
+  while (Tabbed != Tabbed.replace(tabRegEx, wideTabObj)){
+    Tabbed = Tabbed.replace(tabRegEx, wideTabObj);
   }
-  console.log(pArray);
 
-  // get first paragraph
-  let firstPArrObj = pArray[0];
-  console.log("first pArrObj = " + firstPArrObj);
-
-  let myNum = 1;
-  let newHTML = firstPArrObj;
-  let newP;
-
-  // if (myNum === 0){
-  //   // add tab to first paragraph
-  //   newP = `<p>` + tabObj + firstPArrObj;
-  //   console.log("myNum == 0");
-  // }
-  // else{
-  //   newP = tabObj + firstPArrObj;
-  //   console.log("my num != 0");
-  // }
-  // newHTML = newP;
-  // console.log("this newHTML is " + newHTML);
-
-  for (let i = 1; i < pArray.length; i++){
-    if (i === myNum){
-      newHTML = newHTML + `<p>&nbsp` + pArray[i];
-    }
-    else{
-      newHTML = newHTML + pArray[i];
-    }
-    console.log("i = " + pArray[i]);
-  }
-  
-  bodyDiv.innerHTML = newHTML;
-  console.log("newHTML = " + newHTML);
+  //set newly tabbed string as text
+  bodyDiv.innerHTML = Tabbed;
 
 }
-
 
