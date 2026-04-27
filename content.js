@@ -1,3 +1,5 @@
+import { tabValue } from './popup.js';
+
 var toolboxCount = 0;
 var WebPageType = findType();
 var textBoxes = [];
@@ -65,7 +67,7 @@ function findType()
 {
     let pageType = "";
     const bodyObjects = document.querySelectorAll('body');
-    bodyElement = bodyObjects[0];
+    let bodyElement = bodyObjects[0];
     console.log(bodyObjects);
     console.log(bodyElement);
 
@@ -232,15 +234,21 @@ function add_tab(buttonClicked){
   //grab whats in the textbox
   let textString = innerHTMLObj.toString();
 
-  //turn "TAB" into a regular expression (not really needed?)
-  let tabRegEx = new RegExp("TAB");
-  console.log(tabRegEx);
+  let tabReplacable = '~';
+  if (tabValue != null){
+    tabReplacable = tabValue;
+    console.log("YES YEAH YIPPEE");
+  }
+  else{
+    console.log("NOOOO");
+  }
+  console.log(tabReplacable);
 
   //replace any instances of "TAB" with tabObj, loop through until all TABs are replaced
-  let Tabbed = textString.replace(tabRegEx, wideTabObj);
+  let Tabbed = textString.replace(tabReplacable, wideTabObj);
   console.log(Tabbed);
-  while (Tabbed != Tabbed.replace(tabRegEx, wideTabObj)){
-    Tabbed = Tabbed.replace(tabRegEx, wideTabObj);
+  while (Tabbed != Tabbed.replace(tabReplacable, wideTabObj)){
+    Tabbed = Tabbed.replace(tabReplacable, wideTabObj);
   }
 
   //set newly tabbed string as text
@@ -248,3 +256,19 @@ function add_tab(buttonClicked){
 
 }
 
+async function wahoo() {
+    // const myModule = import("./popup.js");
+    // use myModule
+
+    // let gottenVal = getVal();
+    // console.log(gottenVal);
+    console.log(tabValue);
+}
+
+wahoo();
+
+
+
+// import {tabValue} from './popup.js';
+// let tabTextInput = tabValue;
+// console.log(tabTextInput);
