@@ -1,4 +1,4 @@
-import { tabValue } from './popup.js';
+import { getVal } from './popup.js';
 
 var toolboxCount = 0;
 var WebPageType = findType();
@@ -7,12 +7,12 @@ var buttonPos = 0;
 var buttonClicked = 0;
 var foundtoolbars = 0;
 
-var script = document.createElement('script');
-script.type = 'text/javascript';
+// var script = document.createElement('script');
+// script.type = 'text/javascript';
 
-script.src = ""; //'https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js';
-document.body.appendChild(script);
-const inputElement = document.getElementById("tinymce");
+// script.src = ""; //'https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js';
+// document.body.appendChild(script);
+// const inputElement = document.getElementById("tinymce");
 
 
 //on load of website code
@@ -279,6 +279,7 @@ function add_tab(buttonClicked){
   let textString = innerHTMLObj.toString();
 
   let tabReplacable = '~';
+  let tabValue = getVal();
   if (tabValue != null){
     tabReplacable = tabValue;
     console.log("YES YEAH YIPPEE");

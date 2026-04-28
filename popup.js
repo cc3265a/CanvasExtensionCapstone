@@ -29,8 +29,8 @@ init().catch(e => console.error(e));
 var tabValue = localStorage.getItem("tabValue");
 const change = () => tabValue;
 
-function getVal() {
+export function getVal() {
     return myVal;
 }
 
-export {tabValue};
+// export {tabValue};
