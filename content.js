@@ -1,5 +1,7 @@
+const AllowedPageTypes = ["Quiz", "Discussion", "Teacher View"];
+
 var toolboxCount = 0;
-const WebPageType = findType();
+var WebPageType = findType();
 var textBoxes = [];
 var buttonPos = 0;
 var buttonClicked = 0;
@@ -17,6 +19,22 @@ window.onload = function() {
     //console.log(findType());
     WebPageType = findType();
 };
+
+//new, more effective way to find the webpage type less likely to mismatch
+//i maintain this is a better way to do it. however it is so. weird.
+//why. canvas why. will return to this later probably but for now if it ain't broken don't fix it
+
+/*function newFindType() 
+{
+    console.log("new run");
+    //look for quiz content
+    console.log(document.querySelector(`[aria-label="${"Quiz content"}"]`)); 
+    if (existsCheck(quizContent = document.querySelector(`[aria-label="${"Quiz content"}"]`))) //randobly doesnt load?
+    {
+        console.log("doc type quiz");
+        return "Quiz";
+    }
+}*/
 
 function findType() 
 {
@@ -41,6 +59,12 @@ function findType()
             console.log("doc type discussion");
             pageType = "Dicussion";
         }
+        else if (classString.includes("student-view")) 
+        {
+            console.log("doc type teacher");
+            pageType = "Quiz"
+            //processTeacherView(); why is it like this. why is canvas programed like this.
+        }
         else 
         {
             console.log("other canvas page");
@@ -59,6 +83,14 @@ function findType()
 //on scroll of website code
 window.onscroll = function() 
 {
+    if (!AllowedPageTypes.includes(WebPageType)) 
+    {
+        console.log("not canvas, not running");
+        console.log(WebPageType);
+        return;
+    }
+    console.log("running onscroll");
+
     questionCount = countToolbars();
     //logic to decide how much of the website to run
     if (WebPageType == "Quiz") 
@@ -86,6 +118,13 @@ window.onscroll = function()
         console.log(textBoxes);
     }
     
+}
+
+function processTeacherView() 
+{
+    //check if there is quiz conntent on the page
+    quizContent = document.querySelector(`[aria-label="${"Quiz content"}"]`);
+    console.log("techer view", quizContent);
 }
 
 function countToolbars() 
@@ -242,6 +281,24 @@ function add_tab(buttonClicked){
   bodyDiv.innerHTML = newHTML;
   console.log("newHTML = " + newHTML);
 
+}
+
+//helper method to check if a value is null
+//no calls to this currently. it exists to enable something i want to pursue eventually but right now am not using.
+function existsCheck(obj) 
+{
+    console.log("running check")
+    if (obj && obj !== 'null' && obj !== 'undefined') 
+    {
+        console.log("passed existance check");
+        return true;
+    }
+    else 
+    {
+        console.log("failed existence check");
+        return false;
+    }
+    //return (obj && obj !== 'null' && obj !== 'undefined');
 }
 
 
