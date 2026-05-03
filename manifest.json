@@ -16,12 +16,20 @@
   ],
   "browser_action": {
     "browser_style": true,
-    "default_icon": "icons/beasts-32.png",
+    "default_icon": {
+      "16": "TabIcon.png",
+      "32": "TabIcon64.png"
+    },
     "default_title": "Tabulations",
     "default_popup": "popup.html"
   },
   "permissions": [
     "storage"
-  ]
+  ],
+  
+  "icons": {
+    "32": "TabIcon.png",
+    "64": "TabIcon64.png"
+  }
 
 }
