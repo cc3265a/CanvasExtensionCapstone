@@ -3,11 +3,7 @@ let input = document.querySelector('input');
 
 input.addEventListener('change', e => setValue(e.target.value));
 
-<<<<<<< Updated upstream
 async function setValue(value){
-=======
-export async function setValue(value){
->>>>>>> Stashed changes
     console.log(value);
     if (value == 'tabValue'){
         value = '~';
@@ -16,8 +12,7 @@ export async function setValue(value){
     let holdVal = localStorage.getItem("tabValue");
     console.log(holdVal);
     browser.storage.local.set({
-        kitten: { name: "Mog", eats: "mice" },
-        monster: { name: "Kraken", eats: "people" },
+        tabValue: { value },
     });
     
 }
@@ -45,12 +40,8 @@ init().catch(e => console.error(e));
 var tabValue = localStorage.getItem("tabValue");
 const change = () => tabValue;
 
-export function getVal() {
-    return myVal;
-}
+// export function getVal() {
+//     return myVal;
+// }
 
-<<<<<<< Updated upstream
 // export {tabValue};
-=======
-// export {tabValue};
->>>>>>> Stashed changes

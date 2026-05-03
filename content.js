@@ -7,6 +7,7 @@ var buttonPos = 0;
 var buttonClicked = 0;
 var foundtoolbars = 0;
 var questionsNoted = [];
+var tabReplaceSet = '~';
 
 // var script = document.createElement('script');
 // script.type = 'text/javascript';
@@ -69,12 +70,27 @@ window.onmouseup = function()
     {
         console.log("HEREAGAIN");
         textBoxes = [];
+        console.log("my doc is = ");
+        console.log(document);
+        console.log("my doc's first child is")
+        console.log(document.body);
+        console.log("my doc thing is = ");
+        console.log(document.activeElement);
+        let myHold = document.body
+        console.log("my text boxes");
+        // console.log(document.querySelectorAll('*[id]'));
+        let textBoxThings = document.querySelectorAll('iframe   ');
+        console.log(textBoxThings);
 
-        myThing = document.getElementById("message-body-root_ifr");
-        console.log("mything: ");
-        console.log(myThing);
+        let myThing = document.getElementById("message-body-root_ifr");
+        let myThing2 = document.getElementsByClassName("tox-edit-area active");
+        // myThing = document.getElementById("tox-editor-container");
+        console.log("mything2: ");
+        console.log(myThing2);
 
-        let myIFrame = myThing.contentWindow;
+        let thing2IFrame = myThing2.item(0);
+        console.log(thing2IFrame);
+        let myIFrame = thing2IFrame.contentWindow;
         console.log(myIFrame);
         textBoxes.push(myIFrame.document.getElementById("tinymce"));
         console.log(textBoxes);
@@ -345,7 +361,7 @@ const inputElement = document.getElementById("tinymce");
 
 function add_tab(buttonClicked) 
 {
-    
+    console.log("Rin Checkpoint");
     console.log(buttonClicked)
     let buttonIdParts = buttonClicked.id.split("_")
     let selectedQuestion = Number(buttonIdParts[1])
@@ -355,6 +371,20 @@ function add_tab(buttonClicked)
     gettingItem.then(onGot, onError);
     console.log(gettingItem);
 
+    function onGot(item) {
+        console.log(item);
+        if (item.tabValue != null){
+            console.log(item.tabValue);
+            tabReplaceSet = item.tabValue;
+        }
+        else{
+            console.log("NULL");
+        }
+    }
+    function onError(error) {
+        console.log(`Error: ${error}`);
+    }
+    console.log("tabReplaceSet = " + tabReplaceSet);
   //grab the location of the textbox and what is currently in it
   //doesnt work for discussion so an error is thrown but there is a workaround below so its ok
   console.log("textboxes: " + textBoxes);
@@ -432,7 +462,7 @@ async function wahoo() {
 
     // let gottenVal = getVal();
     // console.log(gottenVal);
-    console.log(tabValue);
+    // console.log(tabValue);
 //Show added paragraphs
 
 
