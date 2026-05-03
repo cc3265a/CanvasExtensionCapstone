@@ -4,16 +4,19 @@
   <head>
     <meta charset="utf-8">
     <!-- <link rel="stylesheet" href="choose_beast.css"/> -->
-    
+    <!-- <link rel="stylesheet" href="style.css"> -->
   </head>
 
 <body>
+  <link rel="stylesheet" href="style.css">
   <label>Tabulations
     <input type="text">
+    <button type="submit">Submit</button>
   </label>
-  <label>Change
-    <input type="submit">
-  </label>
+  
+  <div id="currentTab">
+    <p>Current Replacable String: <span id="tabString"> ~ </span></p>
+  </div>
   
   <script src="./content.js" type="module"></script>
   <script src="./popup.js" type="module" ></script>

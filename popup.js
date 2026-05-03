@@ -1,5 +1,6 @@
 // export { tabValue, change };    
 let input = document.querySelector('input');
+let tabChar = "~";
 
 input.addEventListener('change', e => setValue(e.target.value));
 
@@ -14,11 +15,26 @@ async function setValue(value){
     browser.storage.local.set({
         tabValue: { value },
     });
-    
+    let gettingItem = browser.storage.local.get();
+    gettingItem.then(onGot, onError);
+    console.log(gettingItem);
 }
+
 
 function onGot(item) {
   console.log(item);
+    if (item.tabValue != null){
+        console.log(item.tabValue);
+        console.log(item.tabValue.value)
+        tabChar = item.tabValue.value;
+    }
+    else{
+        console.log("NULL");
+    }
+    let pString = document.getElementById("tabString");
+    console.log("pstring = " + pString.innerText);
+    pString.innerText = tabChar;
+        
 }
 
 function onError(error) {
