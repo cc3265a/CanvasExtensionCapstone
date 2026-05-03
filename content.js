@@ -1,11 +1,20 @@
+<<<<<<< Updated upstream
 import { getVal } from './popup.js';
+=======
+//import { getVal } from './popup.js';
+const AllowedPageTypes = ["Quiz", "Discussion", "Teacher View", "Test"];
+>>>>>>> Stashed changes
 
 var toolboxCount = 0;
 var WebPageType = findType();
 var textBoxes = [];
 var buttonPos = 0;
 var buttonClicked = 0;
+<<<<<<< Updated upstream
 var foundtoolbars = 0;
+=======
+var questionsNoted = [];
+>>>>>>> Stashed changes
 
 // var script = document.createElement('script');
 // script.type = 'text/javascript';
@@ -17,12 +26,17 @@ var foundtoolbars = 0;
 
 //on load of website code
 window.onload = function() {
+<<<<<<< Updated upstream
     console.log(findType());
+=======
+    //console.log("canvas extension:",  findType());
+>>>>>>> Stashed changes
     WebPageType = findType();
 };
 
 window.onmouseup = function() 
 {
+<<<<<<< Updated upstream
     console.log("mouseup");
     questionCount = countToolbars();
     findType();
@@ -35,6 +49,15 @@ window.onmouseup = function()
             buttonPos = 0;
             // processToolBars(WebPageType);
         }
+=======
+    console.log("canvas extension:",  "new run");
+    //look for quiz content
+    console.log("canvas extension:",  document.querySelector(`[aria-label="${"Quiz content"}"]`)); 
+    if (existsCheck(quizContent = document.querySelector(`[aria-label="${"Quiz content"}"]`))) //randobly doesnt load?
+    {
+        console.log("canvas extension:",  "doc type quiz");
+        return "Quiz";
+>>>>>>> Stashed changes
     }
 
     if (WebPageType == "Quiz"){
@@ -76,6 +99,7 @@ function findType()
 {
     let pageType = "";
     const bodyObjects = document.querySelectorAll('body');
+<<<<<<< Updated upstream
     let bodyElement = bodyObjects[0];
     console.log(bodyObjects);
     console.log(bodyElement);
@@ -83,72 +107,145 @@ function findType()
     const classString = bodyElement.className
     console.log(classString);
     //console.log(typeof classString);
+=======
+    bodyElement = bodyObjects[0];
+    //console.log("canvas extension:",  bodyElement);
+
+    const classString = bodyElement.className
+    //console.log("canvas extension:",  classString);
+    //console.log("canvas extension:",  typeof classString);
+>>>>>>> Stashed changes
 
     if (classString.includes("with"))
     {
         if (classString.includes("quizzes")) 
         {
-            console.log("doc type quiz");
+            console.log("canvas extension:",  "doc type quiz");
             pageType = "Quiz";
         }
         else if (classString.includes("discussions")) 
         {
+<<<<<<< Updated upstream
             console.log("doc type discussion");
             pageType = "Dicussion";
             WebPageType = "Discussion";
+=======
+            console.log("canvas extension:",  "doc type discussion");
+            pageType = "Discussion";
+        }
+        else if (classString.includes("student-view")) 
+        {
+            console.log("canvas extension:",  "doc type teacher");
+            pageType = "Quiz"
+            //processTeacherView(); why is it like this. why is canvas programed like this.
+>>>>>>> Stashed changes
         }
         else 
         {
-            console.log("other canvas page");
+            console.log("canvas extension:",  "other canvas page");
             pageType = "Other"
         }
     }
     else 
     {
-        console.log("not canvas");
+        console.log("canvas extension:",  "not canvas");
         pageType = "none"
     }
 
     return pageType;
 }
 
+//on click of website
+window.onclick = () => 
+{
+    console.log("canvas extension:",  "toolboxCount", toolboxCount);
+    if (WebPageType == "Discussion") 
+    {
+        console.log("textBoxes")
+        console.log("canvas extension:",  "discussion clicked");
+        questionCount = countToolbars();
+        console.log("canvas extension:",  "count returned: ", questionCount);
+        console.log("canvas extension:",  "toolboxes filled: ", toolboxCount);
+
+        if (questionCount > textBoxes.length) 
+        {
+            textBoxes = document.querySelectorAll('iframe[id^="message-body-"]')
+            console.log("canvas extension:",  textBoxes);
+        }
+
+        if (questionCount != toolboxCount) 
+        {
+            processToolBars(WebPageType);
+        }
+    }
+}
+
 //on scroll of website code
 window.onscroll = function() 
 {
+<<<<<<< Updated upstream
+=======
+    //if this is not a page we have targeted to act on, disregard
+    if (!AllowedPageTypes.includes(WebPageType)) 
+    {
+        console.log("canvas extension:",  "not canvas, not running");
+        console.log("canvas extension:",  WebPageType);
+        return;
+    }
+    //console.log("canvas extension:",  "running onscroll");
+
+>>>>>>> Stashed changes
     questionCount = countToolbars();
     //logic to decide how much of the website to run
     if (WebPageType == "Quiz") 
     {
         if (questionCount != toolboxCount) 
         {
-            buttonPos = 0;
+            //buttonPos = 0;
             processToolBars(WebPageType)
         }
+
+        if (questionCount > textBoxes.length) 
+        {
+            textBoxes = [];
+            console.log("canvas extension:",  questionCount, " < ", textBoxes.length, " ran")
+            for (let i = 0; i < questionCount; i++)
+            {
+                //let frameId = `question_input_${i}_ifr`;
+                let frameId = "question_input_"
+                frameId = frameId.concat(i.toString());
+                frameId = frameId.concat("_ifr");
+                //console.log("canvas extension:",  frameId);
+                textBoxes.push(document.getElementById(frameId));
+            }
+            console.log("canvas extension:",  textBoxes);
+        }
     }
 
-    if (questionCount > textBoxes.length) 
+    if (WebPageType == "Discussion") 
     {
-        textBoxes = [];
-        console.log(questionCount, " < ", textBoxes.length, " ran")
-        for (let i = 0; i < questionCount; i++)
-        {
-            //let frameId = `question_input_${i}_ifr`;
-            let frameId = "question_input_"
-            frameId = frameId.concat(i.toString());
-            frameId = frameId.concat("_ifr");
-            //console.log(frameId);
-            textBoxes.push(document.getElementById(frameId));
-        }
-        console.log(textBoxes);
+        console.log("canvas extension:",  "count returned: ", questionCount);
+        console.log("canvas extension:",  "toolboxes filled: ", toolboxCount);
     }
-    
+  
 }
 
+<<<<<<< Updated upstream
+=======
+function processTeacherView() 
+{
+    //check if there is quiz conntent on the page
+    quizContent = document.querySelector(`[aria-label="${"Quiz content"}"]`);
+    console.log("canvas extension:",  "techer view", quizContent);
+}
+
+>>>>>>> Stashed changes
 function countToolbars() 
 {
+    console.log("canvas extension:",  "counted");
     let toolbars = [];
     let allBars =  document.querySelectorAll(".tox-toolbar__group");     
-    //console.log("all bars: " + allBars.length)
+    
     for (const bar of allBars) 
     {
         if (bar.title == "Formatting") 
@@ -157,12 +254,14 @@ function countToolbars()
             toolbars.push(bar);
         }
     }
+    console.log("canvas extension:",  "all bars: " + allBars.length);
     return toolbars.length
 }
 
 function processToolBars(pageType) 
 {
     let toolbars = [];
+<<<<<<< Updated upstream
     console.log("finding tool bars");
     console.log(pageType);
     if (foundtoolbars < 1){
@@ -193,23 +292,67 @@ function processToolBars(pageType)
         }
         toolboxCount = toolbars.length
     }
+=======
+    console.log("canvas extension:",  "finding tool bars");
+    //console.log("canvas extension:",  pageType);
+    if (pageType == "Quiz") 
+    {
+        console.log("canvas extension:",  "ran toolbar if");
+        let allBars =  document.querySelectorAll(".tox-toolbar__group");     
+        //console.log("canvas extension:",  "all bars: " + allBars.length)
+        for (const bar of allBars) 
+        {
+            if (bar.title == "Formatting" && bar.id != "hasButton") 
+            {
+                console.log("canvas extension:",  bar, "status: ", checkForButton(bar));
+                toolbars.push(bar);
+            }
+        }
+
+        //console.log("canvas extension:",  toolbars);
+        //console.log("canvas extension:",  "length " + toolbars.length)
+    }
+    else if (pageType == "Discussion") 
+    {
+        console.log("canvas extension:",  "ran toolbar if");
+        let allBars =  document.querySelectorAll(".tox-toolbar__group");     
+        //console.log("canvas extension:",  "all bars: " + allBars.length)
+        for (const bar of allBars) 
+        {
+            if (bar.title == "Formatting" && bar.id != "hasButton") 
+            {
+                console.log("canvas extension:",  bar, "status: ", checkForButton(bar));
+                toolbars.push(bar);
+            }
+        }
+    }
+    for (const bar of toolbars)     
+    {
+        console.log("canvas extension:",  bar);
+        if (checkForButton(bar) == false) 
+        {
+            addButton(bar)
+        }
+>>>>>>> Stashed changes
     }
 
 function checkForButton(toolbar) 
 {
-    var hasButton = toolbar.querySelector("#addedButton") != null;
-    //console.log(toolbar + " status = " + hasButton)
+    var hasButton = toolbar.id == "hasButton";
+    //console.log("canvas extension:",  toolbar + " status = " + hasButton)
     return hasButton
 }
 
 //button code, designs functionality
 function addButton(toolbar) 
 {
+    console.log("canvas extension:",  "added button to ", buttonPos)
     let tabButton = document.createElement('button');
     tabButton.classList.add('tox-tbtn');
 
     let newID = "addedButton_";
     newID = newID.concat(buttonPos.toString())
+    questionsNoted.push(buttonPos);
     buttonPos += 1;
     tabButton.id = newID;
     tabButton.innerHTML = "P";
@@ -221,6 +364,7 @@ function addButton(toolbar)
     tabButton.ariaPressed = false;
     tabButton.addEventListener("click", tabClicked);
     toolbar.appendChild(tabButton);
+    toolbar.setAttribute("id", "hasButton")
 }
 
 
@@ -228,18 +372,24 @@ function addButton(toolbar)
 function tabClicked(e) 
 {
     e.preventDefault();
-    console.log("clicked")
-    //console.log(e.target);
+    console.log("canvas extension:",  "clicked")
+    //console.log("canvas extension:",  e.target);
     buttonClicked = e.target
     add_tab(buttonClicked)
     return false;
 }
 
+<<<<<<< Updated upstream
 const inputElement = document.getElementById("tinymce");
 
 
 function add_tab(buttonClicked){
 
+=======
+function add_tab(buttonClicked) 
+{
+    
+>>>>>>> Stashed changes
     console.log(buttonClicked)
     let buttonIdParts = buttonClicked.id.split("_")
     let selectedQuestion = Number(buttonIdParts[1])
@@ -260,6 +410,7 @@ function add_tab(buttonClicked){
   let iframeObj;
   let bodyDiv;
   //rn this is for quiz vs discussion, myThing means its a discussion board
+<<<<<<< Updated upstream
   if (myThing == null){
     iframeObj = selectedIframe.contentWindow;
     bodyDiv = iframeObj.document.querySelector("body");
@@ -271,6 +422,22 @@ function add_tab(buttonClicked){
     bodyDiv = textBoxes[0];
     console.log(bodyDiv);
   }
+=======
+  iframeObj = selectedIframe.contentWindow;
+        bodyDiv = iframeObj.document.querySelector("body");
+   /* if (myThing == null){
+        
+    }
+
+    if (myThing != null){
+        iframeObj = myThing;
+        console.log("textboxes = " + textBoxes);
+        console.log("textbox[0] = " + textBoxes[0]);
+        bodyDiv = textBoxes[0];
+        console.log(bodyDiv);
+    }
+    */
+>>>>>>> Stashed changes
   let innerHTMLObj = bodyDiv.innerHTML;
   console.log("innerHTML is: " + innerHTMLObj);
 
@@ -281,8 +448,16 @@ function add_tab(buttonClicked){
   //grab whats in the textbox
   let textString = innerHTMLObj.toString();
 
+<<<<<<< Updated upstream
   let tabReplacable = '~';
   let tabValue = getVal();
+=======
+
+  //from other popup, in as temp value while popup is troubleshooted 
+  let tabValue = '~';
+  let tabReplacable = '~';
+  //let tabValue = getVal();
+>>>>>>> Stashed changes
   if (tabValue != null){
     tabReplacable = tabValue;
     console.log("YES YEAH YIPPEE");
@@ -291,6 +466,7 @@ function add_tab(buttonClicked){
     console.log("NOOOO");
   }
   console.log(tabReplacable);
+<<<<<<< Updated upstream
 
   //replace any instances of "TAB" with tabObj, loop through until all TABs are replaced
   let Tabbed = textString.replace(tabReplacable, wideTabObj);
@@ -301,9 +477,21 @@ function add_tab(buttonClicked){
 
   //set newly tabbed string as text
   bodyDiv.innerHTML = Tabbed;
+=======
+>>>>>>> Stashed changes
 
+  //replace any instances of "TAB" with tabObj, loop through until all TABs are replaced
+  let Tabbed = textString.replace(tabReplacable, wideTabObj);
+  console.log(Tabbed);
+  while (Tabbed != Tabbed.replace(tabReplacable, wideTabObj)){
+    Tabbed = Tabbed.replace(tabReplacable, wideTabObj);
+  }
+
+  //set newly tabbed string as text
+  bodyDiv.innerHTML = Tabbed;
 }
 
+<<<<<<< Updated upstream
 async function wahoo() {
     // const myModule = import("./popup.js");
     // use myModule
@@ -311,6 +499,37 @@ async function wahoo() {
     // let gottenVal = getVal();
     // console.log(gottenVal);
     console.log(tabValue);
+=======
+//Show added paragraphs
+
+
+//revert added paragraphs
+
+
+//helper function to locate the specific value of the iframe
+function locate_iframe(selectedBox, pageType) 
+{
+    console.log("canvas extension:",  "selectedBox", selectedBox);
+}
+
+
+//helper method to check if a value is null
+//no calls to this currently. it exists to enable something i want to pursue eventually but right now am not using.
+function existsCheck(obj) 
+{
+    console.log("canvas extension:",  "running check")
+    if (obj && obj !== 'null' && obj !== 'undefined') 
+    {
+        console.log("canvas extension:",  "passed existance check");
+        return true;
+    }
+    else 
+    {
+        console.log("canvas extension:",  "failed existence check");
+        return false;
+    }
+    //return (obj && obj !== 'null' && obj !== 'undefined');
+>>>>>>> Stashed changes
 }
 
 wahoo();
