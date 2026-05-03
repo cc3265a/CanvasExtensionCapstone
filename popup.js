@@ -3,7 +3,11 @@ let input = document.querySelector('input');
 
 input.addEventListener('change', e => setValue(e.target.value));
 
+<<<<<<< Updated upstream
 async function setValue(value){
+=======
+export async function setValue(value){
+>>>>>>> Stashed changes
     console.log(value);
     if (value == 'tabValue'){
         value = '~';
@@ -33,4 +37,8 @@ export function getVal() {
     return myVal;
 }
 
+<<<<<<< Updated upstream
 // export {tabValue};
+=======
+// export {tabValue};
+>>>>>>> Stashed changes
