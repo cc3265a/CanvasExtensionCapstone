@@ -1,20 +1,12 @@
-<<<<<<< Updated upstream
-import { getVal } from './popup.js';
-=======
-//import { getVal } from './popup.js';
 const AllowedPageTypes = ["Quiz", "Discussion", "Teacher View", "Test"];
->>>>>>> Stashed changes
 
 var toolboxCount = 0;
 var WebPageType = findType();
 var textBoxes = [];
 var buttonPos = 0;
 var buttonClicked = 0;
-<<<<<<< Updated upstream
 var foundtoolbars = 0;
-=======
 var questionsNoted = [];
->>>>>>> Stashed changes
 
 // var script = document.createElement('script');
 // script.type = 'text/javascript';
@@ -26,17 +18,13 @@ var questionsNoted = [];
 
 //on load of website code
 window.onload = function() {
-<<<<<<< Updated upstream
     console.log(findType());
-=======
     //console.log("canvas extension:",  findType());
->>>>>>> Stashed changes
     WebPageType = findType();
 };
 
 window.onmouseup = function() 
 {
-<<<<<<< Updated upstream
     console.log("mouseup");
     questionCount = countToolbars();
     findType();
@@ -49,7 +37,7 @@ window.onmouseup = function()
             buttonPos = 0;
             // processToolBars(WebPageType);
         }
-=======
+    }
     console.log("canvas extension:",  "new run");
     //look for quiz content
     console.log("canvas extension:",  document.querySelector(`[aria-label="${"Quiz content"}"]`)); 
@@ -57,7 +45,6 @@ window.onmouseup = function()
     {
         console.log("canvas extension:",  "doc type quiz");
         return "Quiz";
->>>>>>> Stashed changes
     }
 
     if (WebPageType == "Quiz"){
@@ -99,22 +86,12 @@ function findType()
 {
     let pageType = "";
     const bodyObjects = document.querySelectorAll('body');
-<<<<<<< Updated upstream
-    let bodyElement = bodyObjects[0];
-    console.log(bodyObjects);
-    console.log(bodyElement);
-
-    const classString = bodyElement.className
-    console.log(classString);
-    //console.log(typeof classString);
-=======
     bodyElement = bodyObjects[0];
     //console.log("canvas extension:",  bodyElement);
 
     const classString = bodyElement.className
     //console.log("canvas extension:",  classString);
     //console.log("canvas extension:",  typeof classString);
->>>>>>> Stashed changes
 
     if (classString.includes("with"))
     {
@@ -125,11 +102,6 @@ function findType()
         }
         else if (classString.includes("discussions")) 
         {
-<<<<<<< Updated upstream
-            console.log("doc type discussion");
-            pageType = "Dicussion";
-            WebPageType = "Discussion";
-=======
             console.log("canvas extension:",  "doc type discussion");
             pageType = "Discussion";
         }
@@ -138,7 +110,6 @@ function findType()
             console.log("canvas extension:",  "doc type teacher");
             pageType = "Quiz"
             //processTeacherView(); why is it like this. why is canvas programed like this.
->>>>>>> Stashed changes
         }
         else 
         {
@@ -183,8 +154,6 @@ window.onclick = () =>
 //on scroll of website code
 window.onscroll = function() 
 {
-<<<<<<< Updated upstream
-=======
     //if this is not a page we have targeted to act on, disregard
     if (!AllowedPageTypes.includes(WebPageType)) 
     {
@@ -194,7 +163,6 @@ window.onscroll = function()
     }
     //console.log("canvas extension:",  "running onscroll");
 
->>>>>>> Stashed changes
     questionCount = countToolbars();
     //logic to decide how much of the website to run
     if (WebPageType == "Quiz") 
