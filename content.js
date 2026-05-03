@@ -375,7 +375,8 @@ function add_tab(buttonClicked)
         console.log(item);
         if (item.tabValue != null){
             console.log(item.tabValue);
-            tabReplaceSet = item.tabValue;
+            console.log(item.tabValue.value)
+            tabReplaceSet = item.tabValue.value;
         }
         else{
             console.log("NULL");
