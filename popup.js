@@ -11,7 +11,19 @@ async function setValue(value){
     await localStorage.setItem("tabValue", value);
     let holdVal = localStorage.getItem("tabValue");
     console.log(holdVal);
+    browser.storage.local.set({
+        kitten: { name: "Mog", eats: "mice" },
+        monster: { name: "Kraken", eats: "people" },
+    });
     
+}
+
+function onGot(item) {
+  console.log(item);
+}
+
+function onError(error) {
+  console.log(`Error: ${error}`);
 }
 
 async function init(){

@@ -245,6 +245,9 @@ function add_tab(buttonClicked){
     let selectedQuestion = Number(buttonIdParts[1])
     console.log("ID = " + selectedQuestion)
 
+    let gettingItem = browser.storage.local.get();
+    gettingItem.then(onGot, onError);
+    console.log(gettingItem);
 
   //grab the location of the textbox and what is currently in it
   //doesnt work for discussion so an error is thrown but there is a workaround below so its ok
