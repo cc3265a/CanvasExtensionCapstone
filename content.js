@@ -230,8 +230,6 @@ window.onscroll = function()
   
 }
 
-<<<<<<< Updated upstream
-=======
 function processTeacherView() 
 {
     //check if there is quiz conntent on the page
@@ -239,7 +237,6 @@ function processTeacherView()
     console.log("canvas extension:",  "techer view", quizContent);
 }
 
->>>>>>> Stashed changes
 function countToolbars() 
 {
     console.log("canvas extension:",  "counted");
@@ -261,7 +258,6 @@ function countToolbars()
 function processToolBars(pageType) 
 {
     let toolbars = [];
-<<<<<<< Updated upstream
     console.log("finding tool bars");
     console.log(pageType);
     if (foundtoolbars < 1){
@@ -292,7 +288,6 @@ function processToolBars(pageType)
         }
         toolboxCount = toolbars.length
     }
-=======
     console.log("canvas extension:",  "finding tool bars");
     //console.log("canvas extension:",  pageType);
     if (pageType == "Quiz") 
@@ -333,7 +328,6 @@ function processToolBars(pageType)
         {
             addButton(bar)
         }
->>>>>>> Stashed changes
     }
 
 function checkForButton(toolbar) 
@@ -379,17 +373,11 @@ function tabClicked(e)
     return false;
 }
 
-<<<<<<< Updated upstream
 const inputElement = document.getElementById("tinymce");
 
-
-function add_tab(buttonClicked){
-
-=======
 function add_tab(buttonClicked) 
 {
     
->>>>>>> Stashed changes
     console.log(buttonClicked)
     let buttonIdParts = buttonClicked.id.split("_")
     let selectedQuestion = Number(buttonIdParts[1])
@@ -410,7 +398,6 @@ function add_tab(buttonClicked)
   let iframeObj;
   let bodyDiv;
   //rn this is for quiz vs discussion, myThing means its a discussion board
-<<<<<<< Updated upstream
   if (myThing == null){
     iframeObj = selectedIframe.contentWindow;
     bodyDiv = iframeObj.document.querySelector("body");
@@ -422,7 +409,6 @@ function add_tab(buttonClicked)
     bodyDiv = textBoxes[0];
     console.log(bodyDiv);
   }
-=======
   iframeObj = selectedIframe.contentWindow;
         bodyDiv = iframeObj.document.querySelector("body");
    /* if (myThing == null){
@@ -437,7 +423,6 @@ function add_tab(buttonClicked)
         console.log(bodyDiv);
     }
     */
->>>>>>> Stashed changes
   let innerHTMLObj = bodyDiv.innerHTML;
   console.log("innerHTML is: " + innerHTMLObj);
 
@@ -448,16 +433,11 @@ function add_tab(buttonClicked)
   //grab whats in the textbox
   let textString = innerHTMLObj.toString();
 
-<<<<<<< Updated upstream
-  let tabReplacable = '~';
-  let tabValue = getVal();
-=======
 
   //from other popup, in as temp value while popup is troubleshooted 
   let tabValue = '~';
   let tabReplacable = '~';
   //let tabValue = getVal();
->>>>>>> Stashed changes
   if (tabValue != null){
     tabReplacable = tabValue;
     console.log("YES YEAH YIPPEE");
@@ -466,19 +446,6 @@ function add_tab(buttonClicked)
     console.log("NOOOO");
   }
   console.log(tabReplacable);
-<<<<<<< Updated upstream
-
-  //replace any instances of "TAB" with tabObj, loop through until all TABs are replaced
-  let Tabbed = textString.replace(tabReplacable, wideTabObj);
-  console.log(Tabbed);
-  while (Tabbed != Tabbed.replace(tabReplacable, wideTabObj)){
-    Tabbed = Tabbed.replace(tabReplacable, wideTabObj);
-  }
-
-  //set newly tabbed string as text
-  bodyDiv.innerHTML = Tabbed;
-=======
->>>>>>> Stashed changes
 
   //replace any instances of "TAB" with tabObj, loop through until all TABs are replaced
   let Tabbed = textString.replace(tabReplacable, wideTabObj);
@@ -490,8 +457,7 @@ function add_tab(buttonClicked)
   //set newly tabbed string as text
   bodyDiv.innerHTML = Tabbed;
 }
-
-<<<<<<< Updated upstream
+}
 async function wahoo() {
     // const myModule = import("./popup.js");
     // use myModule
@@ -499,12 +465,11 @@ async function wahoo() {
     // let gottenVal = getVal();
     // console.log(gottenVal);
     console.log(tabValue);
-=======
 //Show added paragraphs
 
 
 //revert added paragraphs
-
+}
 
 //helper function to locate the specific value of the iframe
 function locate_iframe(selectedBox, pageType) 
@@ -529,7 +494,6 @@ function existsCheck(obj)
         return false;
     }
     //return (obj && obj !== 'null' && obj !== 'undefined');
->>>>>>> Stashed changes
 }
 
 wahoo();
