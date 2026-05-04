@@ -292,7 +292,7 @@ function tabClicked(e)
     // console.log("canvas extension:",  "clicked")
     //console.log("canvas extension:",  e.target);
     buttonClicked = e.target
-    add_tab(buttonClicked, tabReplaceSet, '&numsp;&numsp;')
+    add_tab(buttonClicked, tabReplaceSet, '&emsp;')
     return false;
 };
 
@@ -491,15 +491,6 @@ function showTabs(buttonClicked)
 }
 
 }
-async function wahoo() {
-    // const myModule = import("./popup.js");
-    // use myModule
-
-    // let gottenVal = getVal();
-    // console.log(gottenVal);
-    // console.log(tabValue);
-}
-
 //helper method to find the iframe for a discussion, 
 // because for some reason its making me call it several times
 function findDiscussionFrames() 
@@ -526,7 +517,5 @@ function existsCheck(obj)
     }
     //return (obj && obj !== 'null' && obj !== 'undefined');
 }
-
-wahoo();
 
 
