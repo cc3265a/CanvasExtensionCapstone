@@ -1,6 +1,6 @@
 const AllowedPageTypes = ["Quiz", "Discussion", "Teacher View", "Test"];
 
-var toolboxCount = 0;
+var toolBarCount = 0;
 var WebPageType = findType();
 var textBoxes = [];
 var buttonPos = 0;
@@ -89,7 +89,7 @@ window.onclick = () =>
         //console.log("textBoxes")
         //console.log("canvas extension:",  "discussion clicked");
         //console.log("canvas extension:",  "count returned: ", questionCount);
-        //console.log("canvas extension:",  "toolboxes filled: ", toolBarCount);
+        console.log("canvas extension:",  "toolboxes filled: ", toolBarCount);
         questionCount = countToolbars();
 
         if (questionCount > textBoxes.length) 
@@ -292,7 +292,7 @@ function tabClicked(e)
     // console.log("canvas extension:",  "clicked")
     //console.log("canvas extension:",  e.target);
     buttonClicked = e.target
-    add_tab(buttonClicked, '~', '&numsp;&numsp;')
+    add_tab(buttonClicked, tabReplaceSet, '&numsp;&numsp;')
     return false;
 };
 
