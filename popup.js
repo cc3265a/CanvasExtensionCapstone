@@ -1,13 +1,10 @@
 // export { tabValue, change };    
 let input = document.querySelector('input');
+let tabChar = "~";
 
 input.addEventListener('change', e => setValue(e.target.value));
 
-<<<<<<< Updated upstream
 async function setValue(value){
-=======
-export async function setValue(value){
->>>>>>> Stashed changes
     console.log(value);
     if (value == 'tabValue'){
         value = '~';
@@ -15,7 +12,33 @@ export async function setValue(value){
     await localStorage.setItem("tabValue", value);
     let holdVal = localStorage.getItem("tabValue");
     console.log(holdVal);
-    
+    browser.storage.local.set({
+        tabValue: { value },
+    });
+    let gettingItem = browser.storage.local.get();
+    gettingItem.then(onGot, onError);
+    console.log(gettingItem);
+}
+
+
+function onGot(item) {
+  console.log(item);
+    if (item.tabValue != null){
+        console.log(item.tabValue);
+        console.log(item.tabValue.value)
+        tabChar = item.tabValue.value;
+    }
+    else{
+        console.log("NULL");
+    }
+    let pString = document.getElementById("tabString");
+    console.log("pstring = " + pString.innerText);
+    pString.innerText = tabChar;
+        
+}
+
+function onError(error) {
+  console.log(`Error: ${error}`);
 }
 
 async function init(){
@@ -33,12 +56,8 @@ init().catch(e => console.error(e));
 var tabValue = localStorage.getItem("tabValue");
 const change = () => tabValue;
 
-export function getVal() {
-    return myVal;
-}
+// export function getVal() {
+//     return myVal;
+// }
 
-<<<<<<< Updated upstream
 // export {tabValue};
-=======
-// export {tabValue};
->>>>>>> Stashed changes

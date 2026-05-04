@@ -1,6 +1,6 @@
-const AllowedPageTypes = ["QUIZ", "DISCUSSION", "OTHER CANVAS", "ANNOUNCEMENT"];
+const AllowedPageTypes = ["Quiz", "Discussion", "Teacher View", "Test"];
 
-var toolBarCount = 0;
+var toolboxCount = 0;
 var WebPageType = findType();
 var textBoxes = [];
 var buttonPos = 0;
@@ -121,7 +121,6 @@ window.onscroll = function()
         return;
     }
     //console.log("canvas extension:",  "running onscroll");
-
     
     //logic to decide how much of the website to run
     if (WebPageType == "QUIZ") 
@@ -499,8 +498,6 @@ async function wahoo() {
     // let gottenVal = getVal();
     // console.log(gottenVal);
     // console.log(tabValue);
-
-
 }
 
 //helper method to find the iframe for a discussion, 
